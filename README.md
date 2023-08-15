@@ -1,1 +1,1 @@
-# Tauri Plugin tauri-plugin-network
+# Tauri Plugin network
