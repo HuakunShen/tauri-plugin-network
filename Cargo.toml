@@ -11,5 +11,7 @@ exclude = ["/examples", "/webview-dist", "/webview-src", "node_modules"]
 tauri = { version = "1.4.0" }
 serde = "1.0"
 thiserror = "1.0"
-network-interface = "1.0.1"
 lazy_static = "1.4.0"
+# This is my fork of network-interface with drive Serialize and Deserialize support
+# The original repo has not finished the implementation yet, see PR (https://github.com/EstebanBorai/network-interface/pull/20)
+network-interface = { git = "https://github.com/HuakunShen/network-interface-rust", branch = "serde", version = "1.0.1" }

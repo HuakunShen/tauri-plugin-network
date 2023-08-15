@@ -1,4 +1,7 @@
 <script>
-    import '$lib/app.css';
+  import "$lib/app.css";
 </script>
-<slot />
+
+<div class="p-5 h-screen">
+  <slot />
+</div>
