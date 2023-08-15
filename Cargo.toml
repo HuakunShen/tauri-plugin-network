@@ -1,0 +1,17 @@
+[package]
+name = "tauri-plugin-network"
+version = "0.0.0"
+authors = [ "Huakun" ]
+description = ""
+edition = "2021"
+rust-version = "1.60"
+exclude = ["/examples", "/webview-dist", "/webview-src", "node_modules"]
+
+[dependencies]
+tauri = { version = "1.4.0" }
+serde = "1.0"
+thiserror = "1.0"
+lazy_static = "1.4.0"
+# This is my fork of network-interface with drive Serialize and Deserialize support
+# The original repo has not finished the implementation yet, see PR (https://github.com/EstebanBorai/network-interface/pull/20)
+network-interface = { git = "https://github.com/HuakunShen/network-interface-rust", branch = "serde", version = "1.0.1" }
