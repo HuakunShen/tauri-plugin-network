@@ -9,9 +9,7 @@ pub fn find_available_port() -> Result<u16, String> {
 
 #[tauri::command]
 pub fn is_port_taken(port: u16) -> Result<bool, String> {
-    let taken = network::scan::is_port_taken(port);
-    // println!("taken: {taken}");
-    Ok(taken)
+    Ok(network::scan::is_port_taken(port))
 }
 
 #[tauri::command]
@@ -28,7 +26,6 @@ pub async fn scan_online_ip_port_pairs(
     ip_port_pairs: Vec<IpPortPair>,
     keyword: Option<String>,
 ) -> Result<Vec<IpPortPair>, String> {
-    println!("ip_port_pairs: {:?}", ip_port_pairs);
     Ok(network::scan::scan_online_ip_port_pairs(&ip_port_pairs, keyword).await)
 }
 
@@ -38,7 +35,5 @@ pub async fn scan_online_ips_by_port(
     port: u16,
     keyword: Option<String>,
 ) -> Result<Vec<Ipv4Addr>, String> {
-    println!("IPs: {:?}", ips);
-    println!("Keyword: {:?}", keyword);
     Ok(network::scan::scan_online_ips(ips, port, keyword).await)
 }

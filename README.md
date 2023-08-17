@@ -52,6 +52,8 @@ Zod was used to define type schema and infer TypeScript types. You can import th
 
 The exported zod schemas can be used to parse data and make sure the data returned from rust APIs match the desired structure defined in schema.
 
+#### Get Interface Info
+
 ```typescript
 import { getInterfaces, NetworkInterface } from "tauri-plugin-network-api";
 
@@ -65,6 +67,32 @@ function getInterfacesOnClick() {
     }
   });
 }
+```
+
+#### Scanning
+
+```typescript
+import {
+  isHttpPortOpen,
+  isPortTaken,
+  findAvailablePort,
+  scanOnlineIpPortPairs,
+  scanOnlineIpsByPort,
+} from "tauri-plugin-network-api";
+
+console.log(await is_http_port_open("127.0.0.1", 8000));
+console.log(await isPortTaken(8000));
+console.log(await findAvailablePort());
+console.log(
+  await scanOnlineIpPortPairs([
+    { ip: "127.0.0.1", port: 8000 },
+    { ip: "192.168.3.6", port: 8000 },
+    { ip: "192.168.3.5", port: 8000 },
+  ])
+);
+console.log(
+  await scanOnlineIpsByPort(["127.0.0.1", "192.168.3.6", "192.168.1.2"], 8000)
+);
 ```
 
 ## Usage
