@@ -1,15 +1,16 @@
 {
   "name": "tauri-plugin-network-api",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "You",
   "description": "",
   "browser": "webview-dist/index.js",
   "main": "webview-dist/index.js",
   "types": "webview-dist/index.d.ts",
+  "repository": "github.com/HuakunShen/tauri-plugin-network",
   "scripts": {
     "build": "rollup -c ./webview-src/rollup.config.js",
-    "prepublishOnly": "yarn build",
-    "pretest": "yarn build"
+    "prepublishOnly": "npm run build",
+    "pretest": "npm run build"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "13.3.0",

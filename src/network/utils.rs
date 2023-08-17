@@ -1,4 +1,6 @@
-use network_interface::{NetworkInterface, NetworkInterfaceConfig};
+use crate::model::interface::NetworkInterface;
+use network_interface as niface;
+use network_interface::NetworkInterfaceConfig;
 
 /// ```ignore
 /// let prefix = octets_to_prefix([255, 255, 224, 0]);
@@ -23,25 +25,27 @@ pub fn octets_to_prefix(octets: [u8; 4]) -> u8 {
     prefix_len
 }
 
-pub fn get_interfaces() -> network_interface::Result<Vec<NetworkInterface>> {
-    let ifaces = NetworkInterface::show()?;
+pub fn get_interfaces() -> niface::Result<Vec<NetworkInterface>> {
+    let ifaces = niface::NetworkInterface::show()?
+        .iter()
+        .map(|iface| iface.into())
+        .collect();
     Ok(ifaces)
 }
 
-pub fn get_interface_by_name(name: &str) -> network_interface::Result<NetworkInterface> {
+pub fn get_interface_by_name(name: &str) -> niface::Result<NetworkInterface> {
     let ifaces = get_interfaces()?;
     let iface = ifaces.into_iter().find(|iface| iface.name == name).unwrap();
     Ok(iface)
 }
 
-pub fn get_non_empty_interfaces() -> network_interface::Result<Vec<NetworkInterface>> {
+pub fn get_non_empty_interfaces() -> niface::Result<Vec<NetworkInterface>> {
     let ifaces = get_interfaces()?;
-    let ifaces = ifaces
-        .iter()
-        .filter(|iface| iface.addr.len() > 0)
-        .cloned()
+    let non_ifaces: Vec<NetworkInterface> = ifaces
+        .into_iter()
+        .filter(|iface| !iface.v4_addrs.is_empty())
         .collect();
-    Ok(ifaces)
+    Ok(non_ifaces)
 }
 
 #[cfg(test)]
