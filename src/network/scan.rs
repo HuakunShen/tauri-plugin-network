@@ -19,8 +19,8 @@ pub struct IpPortPair {
 
 /// Find an available port
 /// ```
-/// use engine::network::scan::find_available_port;
-/// let port = find_available_port();
+/// use tauri_plugin_network::network::scan::find_available_port;
+/// let port = find_available_port().unwrap();
 /// assert!(port > 0);
 /// ```
 pub fn find_available_port() -> Result<u16, std::io::Error> {
@@ -32,7 +32,7 @@ pub fn find_available_port() -> Result<u16, std::io::Error> {
 
 /// check if a port is occupied
 /// ```
-/// use engine::network::scan::{is_port_taken};
+/// use tauri_plugin_network::network::scan::{is_port_taken};
 /// let taken = is_port_taken(9876);
 /// assert!(!taken);
 /// ```
@@ -42,7 +42,7 @@ pub fn is_port_taken(port: u16) -> bool {
 
 /// use multiple threads to find an available port from a list of candidate ports
 /// ```
-/// use engine::network::scan::{find_available_port_from_list};
+/// use tauri_plugin_network::network::scan::{find_available_port_from_list};
 /// let candidate_ports = vec![80, 8081, 8082, 8083, 8084];
 /// if let Some(port) = find_available_port_from_list(candidate_ports) {
 ///     println!("port {} is available", port);
@@ -76,7 +76,7 @@ pub fn find_available_port_from_list(candidate_ports: Vec<u16>) -> Option<u16> {
 
 /// Verify is a port is open by checking the keyword. Check if returned text match exactly with the keyword
 /// ```ignore
-/// use engine::network::scan::is_http_port_open_by_keyword;
+/// use tauri_plugin_network::network::scan::is_http_port_open_by_keyword;
 /// let online = is_http_port_open("localhost".to_string(), 8000, None).await;
 /// let online = is_http_port_open("localhost".to_string(), 8000, Some("CrossCopy".to_string())).await;
 /// assert!(!online);
@@ -225,7 +225,7 @@ pub fn get_ipv4_interface_networks_map() -> HashMap<String, Ipv4Network> {
 }
 
 /// ```
-/// use engine::network::scan::{get_ipv4_interface_networks};
+/// use tauri_plugin_network::network::scan::{get_ipv4_interface_networks};
 /// let networks = get_ipv4_interface_networks();
 /// for network in networks {
 ///     println!("Network: {}", network);
@@ -259,7 +259,7 @@ pub fn filter_out_loopback_interfaces(interfaces: Vec<Interface>) -> Vec<Interfa
 }
 
 /// ```
-/// use engine::network::scan::{get_ipv4_interface_networks, filter_out_loopback_networks};
+/// use tauri_plugin_network::network::scan::{get_ipv4_interface_networks, filter_out_loopback_networks};
 /// let networks = get_ipv4_interface_networks();
 /// let networks = filter_out_loopback_networks(networks);
 /// ```
