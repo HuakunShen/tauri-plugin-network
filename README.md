@@ -1,6 +1,17 @@
 # Tauri Plugin network
 
-> This is a Tauri plugin for reading system information.
+> This is a Tauri plugin for reading network interface information and scanning network.
+
+## Features
+
+- [x] Retrieve network interface information
+- [x] TCP host up detection
+- [x] Scan local network ips on specified port using HTTP
+  - [x] With optional response keyword detection
+  - [x] Batch scanning with multi-threading
+- [ ] ICMP scan
+- [ ] Network data transmission monitoring
+- [ ] Packet sniffing (This is harder on Windows as [pnet](https://crates.io/crates/pnet) on Windows requires installation of WinPcap or npcap)
 
 ## Installation
 
