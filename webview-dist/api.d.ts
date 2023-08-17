@@ -12,3 +12,6 @@ export declare function isPortTaken(port: number): Promise<boolean>;
 export declare function isHttpPortOpen(ip: string, port: number, keyword?: string): Promise<boolean>;
 export declare function scanOnlineIpPortPairs(ipPortPairs: IpPortPair[], keyword?: string): Promise<IpPortPair[]>;
 export declare function scanOnlineIpsByPort(ips: string[], port: number, keyword?: string): Promise<string[]>;
+export declare function nonLocalhostNetworks(): Promise<unknown>;
+export declare function localServerIsRunning(port: number, keyword?: string): Promise<boolean>;
+export declare function scanLocalNetworkOnlineHostsByPort(port: number, keyword?: string): Promise<IpPortPair[]>;
