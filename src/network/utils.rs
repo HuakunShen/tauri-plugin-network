@@ -43,7 +43,7 @@ pub fn get_non_empty_interfaces() -> niface::Result<Vec<NetworkInterface>> {
     let ifaces = get_interfaces()?;
     let non_ifaces: Vec<NetworkInterface> = ifaces
         .into_iter()
-        .filter(|iface| iface.v4_addrs.len() > 0)
+        .filter(|iface| !iface.v4_addrs.is_empty())
         .collect();
     Ok(non_ifaces)
 }

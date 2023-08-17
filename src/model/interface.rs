@@ -42,25 +42,23 @@ pub struct NetworkInterface {
 }
 
 pub fn v4_iface_to_network(addr: &niface::V4IfAddr) -> Option<Ipv4Network> {
-    let network = match addr.netmask {
+    match addr.netmask {
         Some(netmask) => match Ipv4Network::with_netmask(addr.ip, netmask) {
             Ok(network) => Some(network),
             Err(_) => None,
         },
         None => None,
-    };
-    network
+    }
 }
 
 pub fn v6_iface_to_network(addr: &niface::V6IfAddr) -> Option<Ipv6Network> {
-    let network = match addr.netmask {
+    match addr.netmask {
         Some(netmask) => match Ipv6Network::with_netmask(addr.ip, netmask) {
             Ok(network) => Some(network),
             Err(_) => None,
         },
         None => None,
-    };
-    network
+    }
 }
 
 impl From<&niface::NetworkInterface> for NetworkInterface {
@@ -77,15 +75,9 @@ impl From<&niface::NetworkInterface> for NetworkInterface {
                             ip: addr.ip,
                             ip_octets: addr.ip.octets(),
                             broadcast: addr.broadcast,
-                            broadcast_octets: match addr.broadcast {
-                                Some(broadcast) => Some(broadcast.octets()),
-                                None => None,
-                            },
+                            broadcast_octets: addr.broadcast.map(|broadcast| broadcast.octets()),
                             netmask: addr.netmask,
-                            netmask_octets: match addr.netmask {
-                                Some(netmask) => Some(netmask.octets()),
-                                None => None,
-                            },
+                            netmask_octets: addr.netmask.map(|netmask| netmask.octets()),
                             prefix: match addr.netmask {
                                 Some(netmask) => match ipv4_mask_to_prefix(netmask) {
                                     Ok(prefix) => Some(prefix),
@@ -114,15 +106,9 @@ impl From<&niface::NetworkInterface> for NetworkInterface {
                             ip: addr.ip,
                             ip_octets: addr.ip.octets(),
                             broadcast: addr.broadcast,
-                            broadcast_octets: match addr.broadcast {
-                                Some(broadcast) => Some(broadcast.octets()),
-                                None => None,
-                            },
+                            broadcast_octets: addr.broadcast.map(|broadcast| broadcast.octets()),
                             netmask: addr.netmask,
-                            netmask_octets: match addr.netmask {
-                                Some(netmask) => Some(netmask.octets()),
-                                None => None,
-                            },
+                            netmask_octets: addr.netmask.map(|netmask| netmask.octets()),
                             prefix: match addr.netmask {
                                 Some(netmask) => match ipv6_mask_to_prefix(netmask) {
                                     Ok(prefix) => Some(prefix),

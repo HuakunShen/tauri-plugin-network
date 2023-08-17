@@ -2,7 +2,7 @@ use futures::future::join_all;
 use if_addrs::{get_if_addrs, IfAddr, Ifv4Addr, Ifv6Addr, Interface};
 use ipnetwork::{IpNetworkError, Ipv4Network};
 use reqwest;
-use serde::{Deserialize, Serialize, Serializer};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::net::{Ipv4Addr, TcpListener};
 use std::sync::mpsc;
@@ -10,8 +10,6 @@ use std::thread;
 use std::time::Duration;
 
 use super::utils::octets_to_prefix;
-
-pub type IpPortPairs = Vec<(Ipv4Addr, u16)>;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct IpPortPair {
@@ -39,10 +37,7 @@ pub fn find_available_port() -> Result<u16, std::io::Error> {
 /// assert!(!taken);
 /// ```
 pub fn is_port_taken(port: u16) -> bool {
-    match TcpListener::bind(String::from("127.0.0.1:") + &port.to_string()) {
-        Ok(_) => false,
-        Err(_) => true,
-    }
+    TcpListener::bind(String::from("127.0.0.1:") + &port.to_string()).is_err()
 }
 
 /// use multiple threads to find an available port from a list of candidate ports
@@ -121,18 +116,14 @@ pub async fn is_http_port_open(ip: String, port: u16, keyword: Option<String>) -
 /// ).await;
 /// ```
 pub async fn scan_online_ip_port_pairs(
-    ip_port_pairs: &Vec<IpPortPair>,
+    ip_port_pairs: &[IpPortPair],
     keyword: Option<String>,
 ) -> Vec<IpPortPair> {
     let mut ret: Vec<IpPortPair> = Vec::new();
     let mut handles = Vec::new();
-    let keyword2: Option<String> = match keyword {
-        Some(keyword) => Some(keyword.to_string()),
-        None => None,
-    };
-    for port_pair in ip_port_pairs.clone() {
+    for port_pair in ip_port_pairs.iter().copied() {
         let c = tokio::spawn({
-            let keyword3 = keyword2.clone();
+            let keyword3 = keyword.clone();
             async move {
                 is_http_port_open(port_pair.ip.clone().to_string(), port_pair.port, keyword3).await
             }
@@ -156,7 +147,11 @@ pub async fn scan_online_ips(
     keyword: Option<String>,
 ) -> Vec<Ipv4Addr> {
     // construct ip port pairs
-    let ip_port_pairs = ips.iter().map(|ip| IpPortPair { ip: *ip, port }).collect();
+    let ip_port_pairs: Vec<IpPortPair> = ips
+        .to_vec()
+        .iter()
+        .map(|ip| IpPortPair { ip: *ip, port })
+        .collect();
     scan_online_ip_port_pairs(&ip_port_pairs, keyword)
         .await
         .into_iter()
@@ -171,7 +166,7 @@ pub fn interface_to_network(ifv4_addr: Ifv4Addr) -> Result<Ipv4Network, IpNetwor
 }
 
 pub fn ipv4_network_to_ips(network: Ipv4Network) -> Vec<Ipv4Addr> {
-    network.iter().collect::<Vec<Ipv4Addr>>().into()
+    network.iter().collect::<Vec<Ipv4Addr>>()
 }
 
 pub fn get_network_interfaces() -> std::io::Result<Vec<if_addrs::Interface>> {
@@ -241,10 +236,7 @@ pub fn get_ipv4_interface_networks_map() -> HashMap<String, Ipv4Network> {
 /// ```
 pub fn get_ipv4_interface_networks() -> Vec<Ipv4Network> {
     let networks_map = get_ipv4_interface_networks_map();
-    networks_map
-        .into_iter()
-        .map(|(_, network)| network)
-        .collect()
+    networks_map.into_values().collect()
 }
 
 pub fn is_localhost(ip: &Ipv4Addr) -> bool {
