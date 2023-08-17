@@ -9,8 +9,8 @@
   "repository": "github.com/HuakunShen/tauri-plugin-network",
   "scripts": {
     "build": "rollup -c ./webview-src/rollup.config.js",
-    "prepublishOnly": "npm build",
-    "pretest": "npm build"
+    "prepublishOnly": "npm run build",
+    "pretest": "npm run build"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "13.3.0",
