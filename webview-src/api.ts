@@ -1,7 +1,48 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { NetworkInterface } from "./types";
+import { IpPortPair, NetworkInterface } from "./types";
 export * from "./types";
 
-export async function getInterfaces(): Promise<Array<NetworkInterface>> {
-  return await invoke("plugin:network|get_interfaces");
+export function getInterfaces(): Promise<Array<NetworkInterface>> {
+  return invoke("plugin:network|get_interfaces");
+}
+
+export function getNonEmptyInterfaces(): Promise<Array<NetworkInterface>> {
+  return invoke("plugin:network|get_non_empty_interfaces");
+}
+
+export function findAvailablePort(): Promise<number> {
+  return invoke("plugin:network|find_available_port");
+}
+/**
+ * This command doesn't work yet
+ * @param port
+ * @returns
+ */
+export function isPortTaken(port: number): Promise<boolean> {
+  return invoke("plugin:network|is_port_taken", { port });
+}
+export function isHttpPortOpen(
+  ip: string,
+  port: number,
+  keyword?: string
+): Promise<boolean> {
+  return invoke("plugin:network|is_http_port_open", { ip, port, keyword });
+}
+
+export function scanOnlineIpPortPairs(
+  ipPortPairs: IpPortPair[],
+  keyword?: string
+): Promise<IpPortPair[]> {
+  return invoke("plugin:network|scan_online_ip_port_pairs", { ipPortPairs, keyword });
+}
+export function scanOnlineIpsByPort(
+  ips: string[],
+  port: number,
+  keyword?: string
+): Promise<string[]> {
+  return invoke("plugin:network|scan_online_ips_by_port", {
+    ips,
+    port,
+    keyword,
+  });
 }

@@ -13,3 +13,8 @@ serde = "1.0"
 thiserror = "1.0"
 lazy_static = "1.4.0"
 network-interface = { version = "1.0.2", features = ["serde"] }
+reqwest = "0.11.18"
+ipnetwork = "0.20.0"
+futures = "0.3.28"
+if-addrs = "0.10.1"
+tokio = "1.32.0"

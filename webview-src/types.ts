@@ -1,16 +1,16 @@
 import { z } from "zod";
 
-// export const addr =
 export const V6IfAddr = z.object({
   ip: z.string(),
+  ip_octets: z.number().array(),
   broadcast: z.string().nullable(),
   broadcast_octets: z.array(z.number()).nullable(),
   netmask: z.string().nullable(),
   netmask_octets: z.number().array().nullable(),
+  prefix: z.number().nullable(),
+  network: z.string().nullable(),
 });
-export const V4IfAddr = V6IfAddr.merge(
-  z.object({ prefix: z.number().nullable() })
-);
+export const V4IfAddr = V6IfAddr;
 export type V4IfAddr = z.infer<typeof V4IfAddr>;
 export type V6IfAddr = z.infer<typeof V6IfAddr>;
 export const Addr = z.record(z.string(), z.union([V4IfAddr, V6IfAddr]));
@@ -23,3 +23,9 @@ export const NetworkInterface = z.object({
   index: z.number(),
 });
 export type NetworkInterface = z.infer<typeof NetworkInterface>;
+
+export const IpPortPair = z.object({
+  ip: z.string(),
+  port: z.number(),
+});
+export type IpPortPair = z.infer<typeof IpPortPair>;
