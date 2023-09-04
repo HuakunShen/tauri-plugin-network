@@ -33,7 +33,10 @@ export function scanOnlineIpPortPairs(
   ipPortPairs: IpPortPair[],
   keyword?: string
 ): Promise<IpPortPair[]> {
-  return invoke("plugin:network|scan_online_ip_port_pairs", { ipPortPairs, keyword });
+  return invoke("plugin:network|scan_online_ip_port_pairs", {
+    ipPortPairs,
+    keyword,
+  });
 }
 export function scanOnlineIpsByPort(
   ips: string[],
@@ -42,6 +45,25 @@ export function scanOnlineIpsByPort(
 ): Promise<string[]> {
   return invoke("plugin:network|scan_online_ips_by_port", {
     ips,
+    port,
+    keyword,
+  });
+}
+
+export function nonLocalhostNetworks() {
+  return invoke("plugin:network|non_localhost_networks");
+}
+export function localServerIsRunning(
+  port: number,
+  keyword?: string
+): Promise<boolean> {
+  return invoke("plugin:network|local_server_is_running", { port, keyword });
+}
+export function scanLocalNetworkOnlineHostsByPort(
+  port: number,
+  keyword?: string
+): Promise<IpPortPair[]> {
+  return invoke("plugin:network|scan_local_network_online_hosts_by_port", {
     port,
     keyword,
   });

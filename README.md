@@ -89,6 +89,9 @@ import {
   findAvailablePort,
   scanOnlineIpPortPairs,
   scanOnlineIpsByPort,
+  nonLocalhostNetworks,
+  localServerIsRunning,
+  scanLocalNetworkOnlineHostsByPort,
 } from "tauri-plugin-network-api";
 
 console.log(await is_http_port_open("127.0.0.1", 8000));
@@ -103,6 +106,12 @@ console.log(
 );
 console.log(
   await scanOnlineIpsByPort(["127.0.0.1", "192.168.3.6", "192.168.1.2"], 8000)
+);
+console.log("Non Localhost Networks", await nonLocalhostNetworks());
+console.log("Local Server is Running", await localServerIsRunning(8000));
+console.log(
+  "Scan Local Network for service",
+  await scanLocalNetworkOnlineHostsByPort(8000, "AppName")
 );
 ```
 

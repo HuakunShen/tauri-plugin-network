@@ -9,7 +9,7 @@ use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
 
-use super::utils::octets_to_prefix;
+use super::utils::{get_interfaces, octets_to_prefix};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct IpPortPair {
@@ -256,6 +256,45 @@ pub fn filter_out_loopback_interfaces(interfaces: Vec<Interface>) -> Vec<Interfa
         .into_iter()
         .filter(|interface| !interface.is_loopback())
         .collect()
+}
+
+pub fn non_localhost_networks() -> Result<Vec<Ipv4Network>, network_interface::Error> {
+    let interfaces = get_interfaces()?;
+    let mut networks = Vec::new();
+    for iface in interfaces {
+        if !iface.v4_addrs.is_empty() {
+            let v4_addrs = iface.v4_addrs;
+            for ifaddr in v4_addrs {
+                if let Some(net) = ifaddr.network {
+                    if !is_loopback_network(&net) {
+                        networks.push(net);
+                    }
+                }
+            }
+        }
+    }
+    Ok(networks)
+}
+
+pub async fn scan_local_network_online_hosts_by_port(
+    port: u16,
+    keyword: Option<String>,
+) -> Result<Vec<IpPortPair>, network_interface::Error> {
+    let networks = non_localhost_networks()?;
+    let mut ip_port_pairs_to_scan: Vec<IpPortPair> = Vec::new();
+
+    for network in networks {
+        let ips = ipv4_network_to_ips(network);
+        for ip in ips {
+            ip_port_pairs_to_scan.push(IpPortPair { ip, port });
+        }
+    }
+    let online_ip_port_pairs = scan_online_ip_port_pairs(&ip_port_pairs_to_scan, keyword).await;
+    Ok(online_ip_port_pairs)
+}
+
+pub async fn local_server_is_running(port: u16, keyword: Option<String>) -> bool {
+    is_http_port_open("localhost".to_string(), port, keyword).await
 }
 
 /// ```

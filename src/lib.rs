@@ -20,6 +20,9 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
             commands::scan::is_http_port_open,
             commands::scan::scan_online_ip_port_pairs,
             commands::scan::scan_online_ips_by_port,
+            commands::scan::non_localhost_networks,
+            commands::scan::local_server_is_running,
+            commands::scan::scan_local_network_online_hosts_by_port,
         ])
         .setup(|app| {
             app.manage(MyState::default());

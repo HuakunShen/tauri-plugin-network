@@ -9,6 +9,9 @@
     findAvailablePort,
     scanOnlineIpPortPairs,
     scanOnlineIpsByPort,
+    nonLocalhostNetworks,
+    localServerIsRunning,
+    scanLocalNetworkOnlineHostsByPort,
   } from "tauri-plugin-network-api";
   import { onMount } from "svelte";
 
@@ -57,6 +60,12 @@
         8000,
         "CrossCopy"
       )
+    );
+    console.log("Non Localhost Networks", await nonLocalhostNetworks());
+    console.log("Local Server is Running", await localServerIsRunning(8000));
+    console.log(
+      "Scan Local Network for service",
+      await scanLocalNetworkOnlineHostsByPort(8000, "CrossCopy")
     );
   });
 </script>
