@@ -57,7 +57,7 @@ fn main() {
 
 All TypeScript APIs can be found in [api.ts](./webview-src/api.ts).
 
-Return type of each API is added. The object structures can be found in [type.ts](./webview-src/type.ts).
+Return type of each API is added. The object structures can be found in [types.ts](./webview-src/types.ts).
 
 Zod was used to define type schema and infer TypeScript types. You can import the types exported from the npm package.
 
