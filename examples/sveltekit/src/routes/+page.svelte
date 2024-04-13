@@ -76,6 +76,8 @@
       <span>{error}</span>
     </div>
   {/if}
+
+  <br />
   <div class="grid grid-cols-4 gap-4">
     <button class="flex-none btn" on:click={getInterfacesOnClick}
       >Get All Interfaces</button
