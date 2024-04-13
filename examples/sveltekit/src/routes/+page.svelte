@@ -122,7 +122,6 @@
   {#if interfaces && interfaces.length > 0}
     <div class="grow overflow-x-auto">
       <table class="table">
-        <!-- head -->
         <thead>
           <tr>
             <th>Index</th>

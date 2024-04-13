@@ -258,6 +258,8 @@ pub fn filter_out_loopback_interfaces(interfaces: Vec<Interface>) -> Vec<Interfa
         .collect()
 }
 
+/// Find all non-localhost IPV4 networks in all network interfaces
+/// The interface without any IPV4 address is ignored
 pub fn non_localhost_networks() -> Result<Vec<Ipv4Network>, network_interface::Error> {
     let interfaces = get_interfaces()?;
     let mut networks = Vec::new();
