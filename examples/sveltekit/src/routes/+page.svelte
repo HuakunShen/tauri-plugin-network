@@ -17,12 +17,37 @@
 
   let data: string = "";
   let error: string = "";
+  let interfaces: Array<NetworkInterface> = [];
+  $: addresses = interfaces
+    .map((iface) => {
+      const v4addrs = iface.v4_addrs.map((v4) => ({
+        index: iface.index,
+        name: iface.name,
+        mac_addr: iface.mac_addr,
+        ip: v4.ip,
+        netmask: v4.netmask,
+        type: 'V4'
+      }));
+      const v6addrs = iface.v6_addrs.map((v6) => ({
+        index: iface.index,
+        name: iface.name,
+        mac_addr: iface.mac_addr,
+        ip: v6.ip,
+        netmask: v6.netmask,
+        type: 'V6'
+      }));
+      return [...v4addrs, ...v6addrs];
+    })
+    .flat();
 
   function getInterfacesOnClick() {
     getInterfaces().then((ifaces: Array<Object>) => {
       const parsed = z.array(NetworkInterface).safeParse(ifaces);
       if (parsed.success) {
         data = JSON.stringify(parsed.data, null, 2);
+        interfaces = parsed.data;
+        // sort interfaces by index
+        interfaces.sort((a, b) => a.index - b.index);
       } else {
         error = parsed.error.toString();
       }
@@ -33,6 +58,7 @@
       const parsed = z.array(NetworkInterface).safeParse(ifaces);
       if (parsed.success) {
         data = JSON.stringify(parsed.data, null, 2);
+        interfaces = parsed.data;
       } else {
         error = parsed.error.toString();
       }
@@ -70,7 +96,7 @@
   });
 </script>
 
-<div class="flex flex-col h-full">
+<div class="flex flex-col space-y-5 h-full py-5">
   {#if error}
     <div class="alert alert-error">
       <span>{error}</span>
@@ -87,10 +113,39 @@
     >
   </div>
   {#if data}
-    <div class="grow card bg-neutral w-full overflow-auto mt-3">
+    <div class="card h-96 bg-neutral w-full overflow-auto">
       <div class="card-body">
         <pre>{data}</pre>
       </div>
+    </div>
+  {/if}
+  {#if interfaces && interfaces.length > 0}
+    <div class="grow overflow-x-auto">
+      <table class="table">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>Index</th>
+            <th>Type</th>
+            <th>Interface Name</th>
+            <th>Mac Address</th>
+            <th>IP</th>
+            <th>Netmask</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each addresses as iface}
+            <tr>
+              <td>{iface.index}</td>
+              <td>{iface.type}</td>
+              <td>{iface.name}</td>
+              <td>{iface.mac_addr}</td>
+              <td>{iface.ip}</td>
+              <td>{iface.netmask}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
     </div>
   {/if}
 </div>

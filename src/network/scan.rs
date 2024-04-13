@@ -37,7 +37,7 @@ pub fn find_available_port() -> Result<u16, std::io::Error> {
 /// assert!(!taken);
 /// ```
 pub fn is_port_taken(port: u16) -> bool {
-    TcpListener::bind(String::from("127.0.0.1:") + &port.to_string()).is_err()
+    TcpListener::bind(("0.0.0.0", port)).is_err()
 }
 
 /// use multiple threads to find an available port from a list of candidate ports
