@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-scan-online-ip-port-pairs"
+description = "Enables the scan_online_ip_port_pairs command without any pre-configured scope."
+commands.allow = ["scan_online_ip_port_pairs"]
+
+[[permission]]
+identifier = "deny-scan-online-ip-port-pairs"
+description = "Denies the scan_online_ip_port_pairs command without any pre-configured scope."
+commands.deny = ["scan_online_ip_port_pairs"]

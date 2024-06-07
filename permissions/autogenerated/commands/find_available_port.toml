@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-find-available-port"
+description = "Enables the find_available_port command without any pre-configured scope."
+commands.allow = ["find_available_port"]
+
+[[permission]]
+identifier = "deny-find-available-port"
+description = "Denies the find_available_port command without any pre-configured scope."
+commands.deny = ["find_available_port"]

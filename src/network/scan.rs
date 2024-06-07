@@ -122,7 +122,7 @@ pub async fn scan_online_ip_port_pairs(
     let mut ret: Vec<IpPortPair> = Vec::new();
     let mut handles = Vec::new();
     for port_pair in ip_port_pairs.iter().copied() {
-        let c = tokio::spawn({
+        let c = tauri::async_runtime::spawn({
             let keyword3 = keyword.clone();
             async move {
                 is_http_port_open(port_pair.ip.clone().to_string(), port_pair.port, keyword3).await

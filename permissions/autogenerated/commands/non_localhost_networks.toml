@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-non-localhost-networks"
+description = "Enables the non_localhost_networks command without any pre-configured scope."
+commands.allow = ["non_localhost_networks"]
+
+[[permission]]
+identifier = "deny-non-localhost-networks"
+description = "Denies the non_localhost_networks command without any pre-configured scope."
+commands.deny = ["non_localhost_networks"]

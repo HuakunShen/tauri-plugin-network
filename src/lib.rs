@@ -2,12 +2,12 @@ use tauri::{
     plugin::{Builder, TauriPlugin},
     Manager, Runtime,
 };
+mod commands;
+mod error;
+mod model;
+mod network;
 
-pub mod commands;
-pub mod common;
-pub mod model;
-pub mod network;
-use common::MyState;
+pub use error::{Error, Result};
 
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
@@ -24,9 +24,6 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
             commands::scan::local_server_is_running,
             commands::scan::scan_local_network_online_hosts_by_port,
         ])
-        .setup(|app| {
-            app.manage(MyState::default());
-            Ok(())
-        })
+        .setup(|app, api| Ok(()))
         .build()
 }

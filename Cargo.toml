@@ -1,16 +1,16 @@
 [package]
 name = "tauri-plugin-network"
-version = "0.1.1"
+version = "2.0.0-beta.0"
 license = "MIT"
 authors = [ "Huakun" ]
 description = "A tauri plugin for retrieving system info"
 edition = "2021"
-rust-version = "1.60"
-exclude = ["/examples", "/webview-dist", "/webview-src", "node_modules"]
-repository = "https://github.com/HuakunShen/tauri-plugin-network"
+rust-version = "1.70"
+exclude = ["/examples", "/webview-dist", "/webview-src", "/node_modules"]
+links = "tauri-plugin-network"
 
 [dependencies]
-tauri = { version = "1.4.0" }
+tauri = { version = "2.0.0-beta.19" }
 serde = "1.0"
 thiserror = "1.0"
 lazy_static = "1.4.0"
@@ -19,4 +19,7 @@ reqwest = "0.11.18"
 ipnetwork = "0.20.0"
 futures = "0.3.28"
 if-addrs = "0.10.1"
-tokio = "1.32.0"
+
+
+[build-dependencies]
+tauri-plugin = { version = "2.0.0-beta.15", features = ["build"] }

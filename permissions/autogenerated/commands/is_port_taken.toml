@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-is-port-taken"
+description = "Enables the is_port_taken command without any pre-configured scope."
+commands.allow = ["is_port_taken"]
+
+[[permission]]
+identifier = "deny-is-port-taken"
+description = "Denies the is_port_taken command without any pre-configured scope."
+commands.deny = ["is_port_taken"]

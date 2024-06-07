@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-scan-local-network-online-hosts-by-port"
+description = "Enables the scan_local_network_online_hosts_by_port command without any pre-configured scope."
+commands.allow = ["scan_local_network_online_hosts_by_port"]
+
+[[permission]]
+identifier = "deny-scan-local-network-online-hosts-by-port"
+description = "Denies the scan_local_network_online_hosts_by_port command without any pre-configured scope."
+commands.deny = ["scan_local_network_online_hosts_by_port"]

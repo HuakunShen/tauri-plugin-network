@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-is-http-port-open"
+description = "Enables the is_http_port_open command without any pre-configured scope."
+commands.allow = ["is_http_port_open"]
+
+[[permission]]
+identifier = "deny-is-http-port-open"
+description = "Denies the is_http_port_open command without any pre-configured scope."
+commands.deny = ["is_http_port_open"]
