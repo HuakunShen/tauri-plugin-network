@@ -18,8 +18,8 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "prepublishOnly": "yarn build",
-    "pretest": "yarn build"
+    "prepublishOnly": "pnpm build",
+    "pretest": "pnpm build"
   },
   "dependencies": {
     "@tauri-apps/api": ">=2.0.0-beta.6",
@@ -31,5 +31,6 @@
     "tslib": "^2.6.2",
     "typedoc": "^0.25.13",
     "typescript": "^5.3.3"
-  }
+  },
+  "packageManager": "pnpm@9.1.2"
 }
