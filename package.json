@@ -1,8 +1,12 @@
 {
   "name": "tauri-plugin-network-api",
-  "version": "2.0.0-beta.0",
-  "author": "You",
-  "description": "",
+  "version": "2.0.1",
+  "author": "Huakun",
+  "description": "Network Plugin for Tauri Apps",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HuakunShen/tauri-plugin-network.git"
+  },
   "type": "module",
   "types": "./dist-js/index.d.ts",
   "main": "./dist-js/index.cjs",

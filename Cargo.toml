@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-network"
-version = "2.0.0-beta.0"
+version = "2.0.1"
 license = "MIT"
 authors = [ "Huakun" ]
 description = "A tauri plugin for retrieving system info"
@@ -8,6 +8,7 @@ edition = "2021"
 rust-version = "1.70"
 exclude = ["/examples", "/webview-dist", "/webview-src", "/node_modules"]
 links = "tauri-plugin-network"
+repository = "https://github.com/HuakunShen/tauri-plugin-network.git"
 
 [dependencies]
 tauri = { version = "2.0.0-beta.19" }
