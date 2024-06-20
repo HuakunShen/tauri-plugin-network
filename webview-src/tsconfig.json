@@ -9,7 +9,8 @@
       "types": ["@types"]
     },
     "declaration": true,
-    "declarationDir": "../webview-dist",
+    "declarationMap": true,
+    "outDir": "../webview-dist",
     "rootDir": "./"
   },
   "include": ["./"]

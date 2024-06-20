@@ -29,7 +29,7 @@
 	},
 	"dependencies": {
 		"@tauri-apps/api": "^1.1.0",
-		"tauri-plugin-network-api": "file:../.."
+		"tauri-plugin-network-api": "link:../../"
 	},
 	"type": "module"
 }

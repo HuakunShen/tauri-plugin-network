@@ -15,3 +15,4 @@ export declare function scanOnlineIpsByPort(ips: string[], port: number, keyword
 export declare function nonLocalhostNetworks(): Promise<unknown>;
 export declare function localServerIsRunning(port: number, keyword?: string): Promise<boolean>;
 export declare function scanLocalNetworkOnlineHostsByPort(port: number, keyword?: string): Promise<IpPortPair[]>;
+//# sourceMappingURL=api.d.ts.map

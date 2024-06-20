@@ -234,3 +234,4 @@ export declare const IpPortPair: z.ZodObject<{
     port: number;
 }>;
 export declare type IpPortPair = z.infer<typeof IpPortPair>;
+//# sourceMappingURL=types.d.ts.map

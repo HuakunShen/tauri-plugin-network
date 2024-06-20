@@ -1,8 +1,8 @@
 {
   "name": "tauri-plugin-network-api",
-  "version": "0.1.1",
-  "author": "You",
-  "description": "",
+  "version": "0.1.2",
+  "author": "Huakun",
+  "description": "Network Plugin for Tauri Apps",
   "browser": "webview-dist/index.js",
   "main": "webview-dist/index.js",
   "types": "webview-dist/index.d.ts",
