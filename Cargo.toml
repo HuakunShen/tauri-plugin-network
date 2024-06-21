@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-network"
-version = "2.0.1"
+version = "2.0.2"
 license = "MIT"
 authors = [ "Huakun" ]
 description = "A tauri plugin for retrieving system info"
