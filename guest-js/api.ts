@@ -69,6 +69,13 @@ export function localServerIsRunning(
   return invoke("plugin:network|local_server_is_running", { port, keyword });
 }
 
+/**
+ * Scan entire local network with a keyword.
+ * Will scan with HTTP request on port 80. If resposne contains keyword then it is considered online.
+ * @param port 
+ * @param keyword 
+ * @returns 
+ */
 export function scanLocalNetworkOnlineHostsByPort(
   port: number,
   keyword?: string

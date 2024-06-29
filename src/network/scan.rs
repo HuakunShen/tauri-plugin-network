@@ -98,7 +98,7 @@ pub async fn is_http_port_open(ip: String, port: u16, keyword: Option<String>) -
     match client.get(&url).send().await {
         Ok(result) => match result.text().await {
             Ok(text) => match keyword {
-                Some(keyword) => text == keyword,
+                Some(keyword) => text.to_lowercase().contains(&keyword.to_lowercase()),
                 None => true,
             },
             Err(_) => false,
