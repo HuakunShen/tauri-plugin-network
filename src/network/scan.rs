@@ -320,6 +320,9 @@ pub async fn scan_local_network_online_hosts_by_port(
     let mut ip_port_pairs_to_scan: Vec<IpPortPair> = Vec::new();
 
     for network in networks {
+        if network.prefix() < 24 {
+            continue;
+        }
         let ips = ipv4_network_to_ips(network);
         for ip in ips {
             ip_port_pairs_to_scan.push(IpPortPair { ip, port });
