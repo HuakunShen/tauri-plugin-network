@@ -1,5 +1,9 @@
 # Tauri Plugin network
 
+![NPM Version](https://img.shields.io/npm/v/tauri-plugin-network-api)
+![Crates.io Version](https://img.shields.io/crates/v/tauri-plugin-network)
+
+
 ### API Documentation: https://huakunshen.github.io/tauri-plugin-network/
 
 > This is a Tauri plugin for reading network interface information and scanning network.
