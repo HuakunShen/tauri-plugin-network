@@ -59,7 +59,7 @@ export function scanOnlineIpsByPort(
  * @returns Ipv4Network
  */
 export function nonLocalhostNetworks() {
-  return invoke<Ipv4Network>("plugin:network|non_localhost_networks");
+  return invoke<Ipv4Network[]>("plugin:network|non_localhost_networks");
 }
 
 export function localServerIsRunning(
