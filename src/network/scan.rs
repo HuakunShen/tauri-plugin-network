@@ -74,35 +74,49 @@ pub fn find_available_port_from_list(candidate_ports: Vec<u16>) -> Option<u16> {
     None
 }
 
-/// Verify is a port is open by checking the keyword. Check if returned text match exactly with the keyword
+/// Verify is a port is open by checking the keyword, on optional route. Check if returned text match exactly with the keyword
+/// The optional status code is used to check if the response status code is the same as the expected status code
+/// If `status_code` is None, then the status code is not checked, and the function returns true if the port is open
 /// ```ignore
 /// use tauri_plugin_network::network::scan::is_http_port_open_by_keyword;
 /// let online = is_http_port_open("localhost".to_string(), 8000, None).await;
 /// let online = is_http_port_open("localhost".to_string(), 8000, Some("CrossCopy".to_string())).await;
 /// assert!(!online);
 /// ```
-pub async fn is_http_port_open(ip: String, port: u16, keyword: Option<String>) -> bool {
-    let scan_addr: String = format!("{}:{}", ip, port);
-    let url = format!("http://{}", scan_addr);
+pub async fn is_http_port_open(
+    ip: String,
+    port: u16,
+    keyword: Option<String>,
+    route: Option<String>,
+    protocol: Option<String>,
+    status_code: Option<u16>,
+) -> bool {
+    let mut scan_addr: String = format!("{}:{}", ip, port);
+    if let Some(route) = route {
+        scan_addr = format!("{}/{}", scan_addr, route);
+    }
+    let protocol = protocol.unwrap_or("http".to_string());
+    let url = format!("{}://{}", protocol, scan_addr);
     let client = reqwest::Client::builder()
         .timeout(Duration::from_secs(1))
         .build()
         .unwrap();
-    // let result = client.get(&url).send().await?;
-    // let response_text = result.text().await?;
-    // let is_open = match keyword {
-    //     Some(keyword) => response_text == keyword,
-    //     None => true,
-    // };
-    // Ok(false)
     match client.get(&url).send().await {
-        Ok(result) => match result.text().await {
-            Ok(text) => match keyword {
-                Some(keyword) => text.to_lowercase().contains(&keyword.to_lowercase()),
-                None => true,
-            },
-            Err(_) => false,
-        },
+        Ok(response) => {
+            let status = response.status();
+            if let Some(status_code) = status_code {
+                if status.as_u16() != status_code {
+                    return false;
+                }
+            }
+            match response.text().await {
+                Ok(text) => match keyword {
+                    Some(keyword) => text.to_lowercase().contains(&keyword.to_lowercase()),
+                    None => true,
+                },
+                Err(_) => false,
+            }
+        }
         Err(_) => false,
     }
 }
@@ -118,14 +132,28 @@ pub async fn is_http_port_open(ip: String, port: u16, keyword: Option<String>) -
 pub async fn scan_online_ip_port_pairs(
     ip_port_pairs: &[IpPortPair],
     keyword: Option<String>,
+    route: Option<String>,
+    protocol: Option<String>,
+    status_code: Option<u16>,
 ) -> Vec<IpPortPair> {
     let mut ret: Vec<IpPortPair> = Vec::new();
     let mut handles = Vec::new();
     for port_pair in ip_port_pairs.iter().copied() {
         let c = tauri::async_runtime::spawn({
-            let keyword3 = keyword.clone();
+            let keyword = keyword.clone();
+            let route = route.clone();
+            let protocol = protocol.clone();
+            let status_code = status_code.clone();
             async move {
-                is_http_port_open(port_pair.ip.clone().to_string(), port_pair.port, keyword3).await
+                is_http_port_open(
+                    port_pair.ip.clone().to_string(),
+                    port_pair.port,
+                    keyword,
+                    route,
+                    protocol,
+                    status_code,
+                )
+                .await
             }
         });
         handles.push(c);
@@ -145,6 +173,9 @@ pub async fn scan_online_ips(
     ips: Vec<Ipv4Addr>,
     port: u16,
     keyword: Option<String>,
+    route: Option<String>,
+    protocol: Option<String>,
+    status_code: Option<u16>,
 ) -> Vec<Ipv4Addr> {
     // construct ip port pairs
     let ip_port_pairs: Vec<IpPortPair> = ips
@@ -152,7 +183,7 @@ pub async fn scan_online_ips(
         .iter()
         .map(|ip| IpPortPair { ip: *ip, port })
         .collect();
-    scan_online_ip_port_pairs(&ip_port_pairs, keyword)
+    scan_online_ip_port_pairs(&ip_port_pairs, keyword, route, protocol, status_code)
         .await
         .into_iter()
         .map(|pair| pair.ip)
@@ -281,6 +312,9 @@ pub fn non_localhost_networks() -> Result<Vec<Ipv4Network>, network_interface::E
 pub async fn scan_local_network_online_hosts_by_port(
     port: u16,
     keyword: Option<String>,
+    route: Option<String>,
+    protocol: Option<String>,
+    status_code: Option<u16>,
 ) -> Result<Vec<IpPortPair>, network_interface::Error> {
     let networks = non_localhost_networks()?;
     let mut ip_port_pairs_to_scan: Vec<IpPortPair> = Vec::new();
@@ -291,12 +325,33 @@ pub async fn scan_local_network_online_hosts_by_port(
             ip_port_pairs_to_scan.push(IpPortPair { ip, port });
         }
     }
-    let online_ip_port_pairs = scan_online_ip_port_pairs(&ip_port_pairs_to_scan, keyword).await;
+    let online_ip_port_pairs = scan_online_ip_port_pairs(
+        &ip_port_pairs_to_scan,
+        keyword,
+        route,
+        protocol,
+        status_code,
+    )
+    .await;
     Ok(online_ip_port_pairs)
 }
 
-pub async fn local_server_is_running(port: u16, keyword: Option<String>) -> bool {
-    is_http_port_open("localhost".to_string(), port, keyword).await
+pub async fn local_server_is_running(
+    port: u16,
+    keyword: Option<String>,
+    route: Option<String>,
+    protocol: Option<String>,
+    status_code: Option<u16>,
+) -> bool {
+    is_http_port_open(
+        "localhost".to_string(),
+        port,
+        keyword,
+        route,
+        protocol,
+        status_code,
+    )
+    .await
 }
 
 /// ```
