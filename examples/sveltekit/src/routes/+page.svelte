@@ -113,8 +113,8 @@
     >
   </div>
   {#if data}
-    <div class="card h-96 bg-neutral w-full overflow-auto">
-      <div class="card-body">
+    <div class="card h-[50em] bg-neutral w-full overflow-auto">
+      <div class="card-body h-[50em]">
         <pre>{data}</pre>
       </div>
     </div>

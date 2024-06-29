@@ -1,5 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { IpPortPair, NetworkInterface } from "./types";
+import { Ipv4Network } from "./models";
 export * from "./types";
 
 export function getInterfaces(): Promise<Array<NetworkInterface>> {
@@ -21,6 +22,7 @@ export function findAvailablePort(): Promise<number> {
 export function isPortTaken(port: number): Promise<boolean> {
   return invoke("plugin:network|is_port_taken", { port });
 }
+
 export function isHttpPortOpen(
   ip: string,
   port: number,
@@ -38,6 +40,7 @@ export function scanOnlineIpPortPairs(
     keyword,
   });
 }
+
 export function scanOnlineIpsByPort(
   ips: string[],
   port: number,
@@ -50,15 +53,22 @@ export function scanOnlineIpsByPort(
   });
 }
 
+/**
+ * Find all non-localhost IPV4 networks in all network interfaces
+ * The interface without any IPV4 address is ignored
+ * @returns Ipv4Network
+ */
 export function nonLocalhostNetworks() {
-  return invoke("plugin:network|non_localhost_networks");
+  return invoke<Ipv4Network>("plugin:network|non_localhost_networks");
 }
+
 export function localServerIsRunning(
   port: number,
   keyword?: string
 ): Promise<boolean> {
   return invoke("plugin:network|local_server_is_running", { port, keyword });
 }
+
 export function scanLocalNetworkOnlineHostsByPort(
   port: number,
   keyword?: string

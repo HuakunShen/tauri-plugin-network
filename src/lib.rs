@@ -24,6 +24,5 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
             commands::scan::local_server_is_running,
             commands::scan::scan_local_network_online_hosts_by_port,
         ])
-        .setup(|app, api| Ok(()))
         .build()
 }

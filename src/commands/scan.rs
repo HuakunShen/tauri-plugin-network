@@ -2,7 +2,7 @@ use std::net::Ipv4Addr;
 
 use ipnetwork::Ipv4Network;
 
-use crate::network::{self, scan::IpPortPair};
+use crate::network::{self, model::Ipv4NetworkSerialize, scan::IpPortPair};
 
 #[tauri::command]
 pub fn find_available_port() -> Result<u16, String> {
@@ -41,8 +41,10 @@ pub async fn scan_online_ips_by_port(
 }
 
 #[tauri::command]
-pub async fn non_localhost_networks() -> Result<Vec<Ipv4Network>, String> {
-    network::scan::non_localhost_networks().map_err(|err| err.to_string())
+pub async fn non_localhost_networks() -> Result<Vec<Ipv4NetworkSerialize>, String> {
+    network::scan::non_localhost_networks()
+        .map_err(|err| err.to_string())
+        .map(|networks| networks.into_iter().map(|network| network.into()).collect())
 }
 
 #[tauri::command]
