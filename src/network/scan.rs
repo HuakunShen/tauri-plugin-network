@@ -368,3 +368,13 @@ pub fn filter_out_loopback_networks(networks: Vec<Ipv4Network>) -> Vec<Ipv4Netwo
         .filter(|network| !is_loopback_network(network))
         .collect()
 }
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn test_find_available_port_from_list() {
+        let candidate_ports = vec![80, 8081, 8082, 8083, 8084];
+        let port = super::find_available_port_from_list(candidate_ports);
+        assert!(port.is_some());
+    }
+}

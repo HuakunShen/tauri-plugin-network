@@ -3,9 +3,9 @@ use tauri::{
     Manager, Runtime,
 };
 mod commands;
-mod error;
-mod model;
-mod network;
+pub mod error;
+pub mod model;
+pub mod network;
 
 pub use error::{Error, Result};
 
