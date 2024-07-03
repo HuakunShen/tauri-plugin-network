@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-network"
-version = "2.0.2"
+version = "2.0.3-beta.0"
 license = "MIT"
 authors = [ "Huakun" ]
 description = "A tauri plugin for retrieving system info"
@@ -20,6 +20,8 @@ reqwest = "0.11.18"
 ipnetwork = "0.20.0"
 futures = "0.3.28"
 if-addrs = "0.10.1"
+mdns-sd = "0.11.1"
+gethostname = "0.4.3"
 
 
 [build-dependencies]
