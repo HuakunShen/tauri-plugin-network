@@ -1,7 +1,6 @@
 use ipnetwork::Ipv4Network;
 use serde::{Deserialize, Serialize};
 
-
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Ipv4NetworkSerialize {
     addr: String,
