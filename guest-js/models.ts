@@ -1,7 +1,7 @@
-import { z } from "zod";
+import * as v from "valibot";
 
-export const Ipv4Network = z.object({
-  addr: z.string(),
-  prefix: z.number(),
+export const Ipv4Network = v.object({
+  addr: v.string(),
+  prefix: v.number(),
 });
-export type Ipv4Network = z.infer<typeof Ipv4Network>;
+export type Ipv4Network = v.InferOutput<typeof Ipv4Network>;

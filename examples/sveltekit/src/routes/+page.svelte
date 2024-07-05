@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte"
+  import { onMount } from "svelte";
   import {
     findAvailablePort,
     getInterfaces,
@@ -12,12 +12,12 @@
     scanLocalNetworkOnlineHostsByPort,
     scanOnlineIpPortPairs,
     scanOnlineIpsByPort,
-  } from "tauri-plugin-network-api"
-  import { z } from "zod"
+  } from "tauri-plugin-network-api";
+  import * as v from "valibot";
 
-  let data: string = ""
-  let error: string = ""
-  let interfaces: Array<NetworkInterface> = []
+  let data: string = "";
+  let error: string = "";
+  let interfaces: Array<NetworkInterface> = [];
   $: addresses = interfaces
     .map((iface) => {
       const v4addrs = iface.v4_addrs.map((v4) => ({
@@ -27,7 +27,7 @@
         ip: v4.ip,
         netmask: v4.netmask,
         type: "V4",
-      }))
+      }));
       const v6addrs = iface.v6_addrs.map((v6) => ({
         index: iface.index,
         name: iface.name,
@@ -35,34 +35,35 @@
         ip: v6.ip,
         netmask: v6.netmask,
         type: "V6",
-      }))
-      return [...v4addrs, ...v6addrs]
+      }));
+      return [...v4addrs, ...v6addrs];
     })
-    .flat()
+    .flat();
 
   function getInterfacesOnClick() {
     getInterfaces().then((ifaces: Array<Object>) => {
-      const parsed = z.array(NetworkInterface).safeParse(ifaces)
+      const parsed = v.safeParse(v.array(NetworkInterface), ifaces);
+
       if (parsed.success) {
-        data = JSON.stringify(parsed.data, null, 2)
-        interfaces = parsed.data
+        data = JSON.stringify(parsed.output, null, 2);
+        interfaces = parsed.output;
         // sort interfaces by index
-        interfaces.sort((a, b) => a.index - b.index)
+        interfaces.sort((a, b) => a.index - b.index);
       } else {
-        error = parsed.error.toString()
+        error = parsed.issues.toString();
       }
-    })
+    });
   }
   function getNonEmptyInterfacesOnClick() {
     getNonEmptyInterfaces().then((ifaces: Array<Object>) => {
-      const parsed = z.array(NetworkInterface).safeParse(ifaces)
+      const parsed = v.safeParse(v.array(NetworkInterface), ifaces);
       if (parsed.success) {
-        data = JSON.stringify(parsed.data, null, 2)
-        interfaces = parsed.data
+        data = JSON.stringify(parsed.output, null, 2);
+        interfaces = parsed.output;
       } else {
-        error = parsed.error.toString()
+        error = parsed.issues.toString();
       }
-    })
+    });
   }
 
   onMount(async () => {
@@ -79,19 +80,28 @@
         ],
         {
           keyword: "CrossCopy",
-        },
-      ),
-    )
+        }
+      )
+    );
     console.log(
-      await scanOnlineIpsByPort(["127.0.0.1", "192.168.3.6", "192.168.1.2"], { port: 8000, keyword: "CrossCopy" }),
-    )
-    console.log("Non Localhost Networks", await nonLocalhostNetworks())
-    console.log("Local Server is Running", await localServerIsRunning({ port: 8000 }))
+      await scanOnlineIpsByPort(["127.0.0.1", "192.168.3.6", "192.168.1.2"], {
+        port: 8000,
+        keyword: "CrossCopy",
+      })
+    );
+    console.log("Non Localhost Networks", await nonLocalhostNetworks());
+    console.log(
+      "Local Server is Running",
+      await localServerIsRunning({ port: 8000 })
+    );
     console.log(
       "Scan Local Network for service",
-      await scanLocalNetworkOnlineHostsByPort({ port: 8000, keyword: "CrossCopy" }),
-    )
-  })
+      await scanLocalNetworkOnlineHostsByPort({
+        port: 8000,
+        keyword: "CrossCopy",
+      })
+    );
+  });
 </script>
 
 <div class="flex flex-col space-y-5 h-full py-5">
@@ -103,8 +113,12 @@
 
   <br />
   <div class="grid grid-cols-4 gap-4">
-    <button class="flex-none btn" on:click={getInterfacesOnClick}>Get All Interfaces</button>
-    <button class="flex-none btn" on:click={getNonEmptyInterfacesOnClick}>Get Non Empty Interfaces</button>
+    <button class="flex-none btn" on:click={getInterfacesOnClick}
+      >Get All Interfaces</button
+    >
+    <button class="flex-none btn" on:click={getNonEmptyInterfacesOnClick}
+      >Get Non Empty Interfaces</button
+    >
   </div>
   {#if data}
     <div class="card h-[50em] bg-neutral w-full overflow-auto">

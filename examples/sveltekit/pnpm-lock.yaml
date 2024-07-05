@@ -17,6 +17,9 @@ importers:
       tauri-plugin-network-api:
         specifier: link:../../
         version: link:../..
+      valibot:
+        specifier: ^0.35.0
+        version: 0.35.0
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^2.0.0
@@ -57,9 +60,6 @@ importers:
       vite:
         specifier: ^4.4.2
         version: 4.5.3
-      zod:
-        specifier: ^3.22.0
-        version: 3.23.8
 
 packages:
 
@@ -1057,6 +1057,9 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  valibot@0.35.0:
+    resolution: {integrity: sha512-+i2aCRkReTrd5KBN/dW2BrPOvFnU5LXTV2xjZnjnqUIO8YUx6P2+MgRrkwF2FhkexgyKq/NIZdPdknhHf5A/Ww==}
+
   vite@4.5.3:
     resolution: {integrity: sha512-kQL23kMeX92v3ph7IauVkXkikdDRsYMGTVl5KY2E9OY4ONLvkHf04MDTbnfo6NKxZiDLWzVpP5oTa8hQD8U3dg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -1113,9 +1116,6 @@ packages:
     resolution: {integrity: sha512-sntgmxj8o7DE7g/Qi60cqpLBA3HG3STcDA0kO+WfB05jEKhZMbY7umNm2rBpQvsmZ16/lPXCJGW2672dgOUkrg==}
     engines: {node: '>= 14'}
     hasBin: true
-
-  zod@3.23.8:
-    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
 
@@ -2027,6 +2027,8 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
+  valibot@0.35.0: {}
+
   vite@4.5.3:
     dependencies:
       esbuild: 0.18.20
@@ -2058,5 +2060,3 @@ snapshots:
   wrappy@1.0.2: {}
 
   yaml@2.4.3: {}
-
-  zod@3.23.8: {}
