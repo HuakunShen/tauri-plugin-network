@@ -41,8 +41,7 @@ impl MdnsService {
             .iter()
             .map(|ip| ip.to_owned().to_owned().ip.to_string())
             .collect::<Vec<_>>();
-        let ipv4_ips_str = ipv4_ips.join(",");
-        ipv4_ips_str
+        ipv4_ips.join(",")
     }
 
     /// ```ignore
@@ -63,12 +62,12 @@ impl MdnsService {
         host_name: Option<String>,
         properties: Option<HashMap<String, String>>,
     ) -> Result<ServiceInfo, mdns_sd::Error> {
-        let hostname = format!("{}.local.", gethostname().to_string_lossy().to_string());
+        let hostname = format!("{}.local.", gethostname().to_string_lossy());
         let my_service = match properties {
             Some(properties) => ServiceInfo::new(
                 &self.service_type,
                 instance_name,
-                &host_name.unwrap_or_else(|| hostname),
+                &host_name.unwrap_or(hostname),
                 ip,
                 port,
                 properties,
@@ -78,7 +77,7 @@ impl MdnsService {
                 ServiceInfo::new(
                     &self.service_type,
                     instance_name,
-                    &host_name.unwrap_or_else(|| hostname),
+                    &host_name.unwrap_or(hostname),
                     ip,
                     port,
                     &default_properties[..],
@@ -164,6 +163,9 @@ mod tests {
         mdns.browse_w_closure(|event| match event {
             ServiceEvent::ServiceResolved(info) => {
                 println!("Service up: {:?}", info);
+            }
+            ServiceEvent::ServiceRemoved(a, b) => {
+                println!("Service down: {:?}, {:?}", a, b);
             }
             _ => {}
         })

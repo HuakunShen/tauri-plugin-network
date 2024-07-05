@@ -143,7 +143,6 @@ pub async fn scan_online_ip_port_pairs(
             let keyword = keyword.clone();
             let route = route.clone();
             let protocol = protocol.clone();
-            let status_code = status_code.clone();
             async move {
                 is_http_port_open(
                     port_pair.ip.clone().to_string(),
