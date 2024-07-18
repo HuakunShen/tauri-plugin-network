@@ -26,9 +26,11 @@
     "prepublishOnly": "pnpm build",
     "pretest": "pnpm build"
   },
-  "dependencies": {
-    "@tauri-apps/api": ">=2.0.0-beta.6",
+  "peerDependencies": {
     "valibot": "^0.35.0"
+  },
+  "dependencies": {
+    "@tauri-apps/api": ">=2.0.0-beta.6"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
