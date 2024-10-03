@@ -34,7 +34,7 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.9.6",
     "tslib": "^2.6.2",
-    "typedoc": "^0.25.13",
+    "typedoc": "^0.26.6",
     "typescript": "^5.3.3"
   },
   "packageManager": "pnpm@9.1.2"
