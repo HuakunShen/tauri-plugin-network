@@ -1,6 +1,6 @@
 {
   "name": "tauri-plugin-network-api",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "author": "Huakun",
   "description": "Network Plugin for Tauri Apps",
   "repository": {
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "valibot": "^0.40.0",
-    "@tauri-apps/api": "^2.0.0-rc.3"
+    "@tauri-apps/api": "^2.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
