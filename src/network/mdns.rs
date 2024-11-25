@@ -121,7 +121,7 @@ impl MdnsService {
     }
 }
 
-#[derive(Debug, Clone, Hash, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ServiceInfoMod {
     pub addresses: Vec<IpAddr>,
@@ -130,10 +130,16 @@ pub struct ServiceInfoMod {
     pub port: u16,
     pub service_type: String, // Returns the service type including the domain label. For example: "_my-service._udp.local.".
     pub sub_type: Option<String>, // Returns the service subtype including the domain label, if subtype has been defined. For example: "_printer._sub._http._tcp.local.".
+    pub properties: HashMap<String, String>,
 }
 
 impl From<ServiceInfo> for ServiceInfoMod {
     fn from(info: ServiceInfo) -> Self {
+        let properties = info
+            .get_properties()
+            .iter()
+            .map(|property| (property.key().to_string(), property.val_str().to_string()))
+            .collect::<HashMap<_, _>>();
         Self {
             addresses: info.get_addresses().iter().cloned().collect(),
             fullname: info.get_fullname().to_string(),
@@ -141,6 +147,7 @@ impl From<ServiceInfo> for ServiceInfoMod {
             port: info.get_port(),
             service_type: info.get_type().to_string(),
             sub_type: info.get_subtype().clone(),
+            properties,
         }
     }
 }
