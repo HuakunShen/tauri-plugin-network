@@ -24,5 +24,10 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
             commands::scan::local_server_is_running,
             commands::scan::scan_local_network_online_hosts_by_port,
         ])
+        .setup(|_app, _api| {
+            #[cfg(target_os = "android")]
+            let _handle = _api.register_android_plugin("com.plugin.network", "TauriPluginNetworkApi")?;
+            Ok(())
+        })
         .build()
 }
