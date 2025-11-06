@@ -1,0 +1,24 @@
+<main class="container">
+  <h1>Welcome to Tauri + Angular!</h1>
+
+  <div class="row">
+    <ul>
+    <li *ngFor="let ip of ips">
+        {{ ip }}
+    </li>
+  </ul>
+  </div>
+
+  <form class="row" (submit)="findIps($event)">
+    <button type="submit">find my local ip</button>
+  </form>
+
+  <!-- Default interact with rust example code -->
+  <form class="row" (submit)="greet($event, greetInput.value)">
+    <input #greetInput id="greet-input" placeholder="Enter a name..." />
+    <button type="submit">Greet</button>
+  </form>
+  <p>{{ greetingMessage }}</p>
+
+  <router-outlet />
+</main>
