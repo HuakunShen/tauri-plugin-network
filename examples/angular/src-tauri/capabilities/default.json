@@ -1,0 +1,12 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "opener:default",
+    "network:allow-scan-local-network-online-hosts-by-port",
+    "network:allow-non-localhost-networks"
+  ]
+}
